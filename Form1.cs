@@ -99,6 +99,7 @@ namespace Capture
         public void ShowMouseControl(int x, int y)
         {
             MessageBox.Show($"x 좌표 {x}\ny 좌표 {y}", "마우스 조작");
+            
         }
     }
 }

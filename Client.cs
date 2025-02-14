@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace Capture
 {
@@ -14,6 +15,15 @@ namespace Capture
         List<string> textList = new List<string>();
         Socket mainSock;
         int m_port = 5000;
+
+        #region 마우스 조작 변수
+        [DllImport("user32.dll")]
+        static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, int dwExtraInfo);
+
+        private const uint MOUSEEVENTF_LEFTDOWN = 0x0002;      // The left button is down.
+        private const uint MOUSEEVENTF_LEFTUP = 0x0004;
+        #endregion
+
         public void Connect()
         {
             Console.WriteLine("클라 컨넥");
@@ -136,7 +146,11 @@ namespace Capture
             string[] poses = code.Split(Form1.divideStr);
             int x = int.Parse(poses[0]);
             int y = int.Parse(poses[1]);
-            Program.form.ShowMouseControl(x, y);
+           // Program.form.ShowMouseControl(x, y);
+
+            Cursor.Position = new Point(1900, 55);
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
         }
     }
 }
