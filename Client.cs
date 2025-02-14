@@ -20,8 +20,10 @@ namespace Capture
         [DllImport("user32.dll")]
         static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, int dwExtraInfo);
 
-        private const uint MOUSEEVENTF_LEFTDOWN = 0x0008;      // The left button is down.
-        private const uint MOUSEEVENTF_LEFTUP = 0x0016;
+        private const uint MOUSEEVENTF_LEFTDOWN = 0x0002;      // The left button is down.
+        private const uint MOUSEEVENTF_LEFTUP = 0x004;
+        private const uint MOUSEEVENTF_RIGHTDOWN = 0x0008;    // 오른쪽 마우스 버튼 눌림
+        private const uint MOUSEEVENTF_RIGHTUP = 0x00010;
         #endregion
 
         public void Connect()
@@ -154,8 +156,19 @@ namespace Capture
             int curY = (int)(1080 * correctY);
            
             Cursor.Position = new Point(curX, curY);
-            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
-            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+            if (isLeft != 0)
+            {
+                //좌클
+                mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+                mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+            }
+            else
+            {
+                //우클
+                mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
+                mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
+            }
+            
         }
     }
 }
