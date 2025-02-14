@@ -7,6 +7,7 @@ namespace Capture
 {
     public partial class Form1 : Form
     {
+        public const string divideStr = "/";
         public Server server;
         public Client client;
         public Form1()
@@ -61,7 +62,7 @@ namespace Capture
             int yPos = Cursor.Position.Y;
             if(server != null)
             {
-               
+                server.SendMousInfo(xPos, yPos);
             }
         }
 
@@ -93,6 +94,11 @@ namespace Capture
             Task<byte[]> tt = GetScreen(capture);
             await tt;
             byte[] result = tt.Result;
+        }
+
+        public void ShowMouseControl(int x, int y)
+        {
+            MessageBox.Show($"x ÁÂÇ¥ {x}\ny ÁÂÇ¥ {y}", "¸¶¿ì½º Á¶ÀÛ");
         }
     }
 }

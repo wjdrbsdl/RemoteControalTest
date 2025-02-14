@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace Capture
 {
@@ -96,7 +97,8 @@ namespace Capture
                 byte[] buffer = new byte[received];
 
                 Array.Copy(obj.Buffer, 0, buffer, 0, received);
-               
+
+                ControlMouse(buffer);
 
                 obj.WorkingSocket.BeginReceive(obj.Buffer, 0, obj.BufferSize, 0, DataReceived, obj);
             }
@@ -126,6 +128,15 @@ namespace Capture
                 mainSock.Send(result);
             }
             
+        }
+
+        private void ControlMouse(byte[] buff)
+        {
+            string code = Encoding.ASCII.GetString(buff);
+            string[] poses = code.Split(Form1.divideStr);
+            int x = int.Parse(poses[0]);
+            int y = int.Parse(poses[1]);
+            Program.form.ShowMouseControl(x, y);
         }
     }
 }
