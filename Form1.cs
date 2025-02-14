@@ -13,6 +13,19 @@ namespace Capture
         public Form1()
         {
             InitializeComponent();
+            pictureBox1.MouseUp += OnClickPickTureClick;
+        }
+
+        private void OnClickPickTureClick(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+            {
+                PictureBoxLeftClick(sender, e, true);
+            }
+            else if(e.Button == MouseButtons.Right)
+            {
+                PictureBoxLeftClick(sender, e, false);
+            }
         }
 
 
@@ -56,7 +69,7 @@ namespace Capture
                 );
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void PictureBoxLeftClick(object sender, EventArgs e, bool _isLeft)
         {
             Point a = pictureBox1.PointToClient(Cursor.Position);
             Point b = pictureBox1.PointToScreen(Cursor.Position);
@@ -67,11 +80,16 @@ namespace Capture
             float ratioY = (float)a.Y / (float)size.Height;
             int closeY = (int)(ratioY * 100);
             //비율을 2자리 까지해서 전달
-           // Program.form.ShowMouseControl(closeX, closeY);
+            // Program.form.ShowMouseControl(closeX, closeY);
 
+            int isLeft = 1;
+            if(_isLeft == false)
+            {
+                isLeft = 0; //우클이면 0
+            }
             if (server != null)
             {
-                server.SendMousInfo(closeX, closeY);
+                server.SendMousInfo(closeX, closeY, isLeft);
             }
         }
 

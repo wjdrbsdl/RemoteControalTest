@@ -20,8 +20,8 @@ namespace Capture
         [DllImport("user32.dll")]
         static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, int dwExtraInfo);
 
-        private const uint MOUSEEVENTF_LEFTDOWN = 0x0002;      // The left button is down.
-        private const uint MOUSEEVENTF_LEFTUP = 0x0004;
+        private const uint MOUSEEVENTF_LEFTDOWN = 0x0008;      // The left button is down.
+        private const uint MOUSEEVENTF_LEFTUP = 0x0016;
         #endregion
 
         public void Connect()
@@ -146,9 +146,14 @@ namespace Capture
             string[] poses = code.Split(Form1.divideStr);
             int x = int.Parse(poses[0]);
             int y = int.Parse(poses[1]);
-           // Program.form.ShowMouseControl(x, y);
-
-            Cursor.Position = new Point(1900, 55);
+            int isLeft = int.Parse(poses[2]); //0이면 우클 , 1이면 좌클
+            float correctX = x * 0.01f;
+            float correctY = y * 0.01f;
+            //클라이언트의 해상도로 마우스 위치를 조정 
+            int curX = (int)(1920 * correctX);
+            int curY = (int)(1080 * correctY);
+           
+            Cursor.Position = new Point(curX, curY);
             mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
             mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
         }

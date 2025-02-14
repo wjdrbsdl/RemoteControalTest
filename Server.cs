@@ -129,9 +129,10 @@ namespace Capture
 
         }
 
-        public void SendMousInfo(int x, int y)
+        public void SendMousInfo(int x, int y, int _isLeft)
         {
-            string infoStr = x.ToString() + Form1.divideStr + y.ToString();
+            //_isLeft 0아니면 좌클 
+            string infoStr = x.ToString() + Form1.divideStr + y.ToString() + Form1.divideStr+_isLeft;
             byte[] mouseControl = Encoding.ASCII.GetBytes(infoStr);
 
             //0번째 클라에 보내는걸로 간주 
