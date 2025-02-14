@@ -58,11 +58,20 @@ namespace Capture
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            int xPos = Cursor.Position.X;
-            int yPos = Cursor.Position.Y;
-            if(server != null)
+            Point a = pictureBox1.PointToClient(Cursor.Position);
+            Point b = pictureBox1.PointToScreen(Cursor.Position);
+            Size size = pictureBox1.Size;
+            
+            float ratioX = (float)a.X / (float)size.Width;
+            int closeX = (int)(ratioX * 100);
+            float ratioY = (float)a.Y / (float)size.Height;
+            int closeY = (int)(ratioY * 100);
+            //ºñÀ²À» 2ÀÚ¸® ±îÁöÇØ¼­ Àü´Þ
+           // Program.form.ShowMouseControl(closeX, closeY);
+
+            if (server != null)
             {
-                server.SendMousInfo(xPos, yPos);
+                server.SendMousInfo(closeX, closeY);
             }
         }
 
@@ -100,6 +109,11 @@ namespace Capture
         {
             MessageBox.Show($"x ÁÂÇ¥ {x}\ny ÁÂÇ¥ {y}", "¸¶¿ì½º Á¶ÀÛ");
             
+        }
+        public void ShowMouseControl(Point a, Point b)
+        {
+            MessageBox.Show($"a: x ÁÂÇ¥ {a.X} :y ÁÂÇ¥ {a.Y}\nb : x ÁÂÇ¥ {b.X} :y ÁÂÇ¥ {b.Y}", "¸¶¿ì½º Á¶ÀÛ");
+
         }
     }
 }
