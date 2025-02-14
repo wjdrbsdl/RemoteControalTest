@@ -61,7 +61,7 @@ namespace Capture
             int yPos = Cursor.Position.Y;
             if(server != null)
             {
-                server.
+               
             }
         }
 
